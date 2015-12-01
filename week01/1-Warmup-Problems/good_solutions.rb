@@ -112,7 +112,7 @@ def largest_palindrome(n)
   n
 end
 
-def prime?(n)
+def is_prime?(n)
   b = true
   b = false if n == 1
   2.upto(n - 1) { |i| b = false if n % i == 0 }
