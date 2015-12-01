@@ -113,15 +113,31 @@ def largest_palindrome(n)
 end
 
 def prime?(n)
-  # Waiting for PR
+  b = true
+  b = false if n == 1
+  2.upto(n - 1) { |i| b = false if n % i == 0 }
+  b
 end
 
 def list_first_primes(n)
-  # Waiting for PR
+  list, i = [], 2
+  while list.count < n
+    list << i if is_prime?(i)
+    i += 1
+  end
+  list
 end
 
 def sieve(n)
-  # Waiting for PR
+  numbers = []
+  2.upto(n) { |i| numbers << i }
+  2.upto(n) do |i|
+    if is_prime?(i)
+      numbers = numbers.reject { |num| num % i == 0 }
+      numbers.insert(0, i)
+    end
+  end
+  numbers.reverse
 end
 
 def char_is_positive_digit?(n)
