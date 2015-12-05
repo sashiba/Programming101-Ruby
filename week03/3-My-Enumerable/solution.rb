@@ -2,12 +2,14 @@ module MyEnumerable
 #bundle exec rake test
 
   def map
+    return enum_for(:map) unless block_given?
     Array.new.tap do |arr|
       each { |element| arr << (yield element) }
     end
   end
 
   def filter
+    return enum_for(:filter) unless block_given?
     Array.new.tap do |arr|
       each { |element| arr << element if yield element }
     end
@@ -18,6 +20,7 @@ module MyEnumerable
   end
 
   def reject
+    return enum_for(:reject) unless block_given?
     Array.new.tap do |arr| 
      each { |element| arr << element unless (yield element) }
     end
@@ -25,6 +28,7 @@ module MyEnumerable
   end
 
   def reduce(initial = nil)
+    return enum_for(:reduce) unless block_given?
     each do |element|
       if initial == nil
         initial = element
@@ -36,14 +40,17 @@ module MyEnumerable
   end
 
   def any?(&block)
+    return enum_for(:any?) unless block_given?
     filter(&block).size > 0
   end
 
   def all?(&block)
+    return enum_for(:all?) unless block_given?
     filter(&block).size == size
   end
 
   def one?(&block)
+    return enum_for(:one?) unless block_given?
     filter(&block).size == 1
   end
 
@@ -81,20 +88,12 @@ module MyEnumerable
     Proc.new { |x| !block.call(x) }
   end
 
-  def reject(&block)
-    filter(negate_block(&block))
-  end
+  #def reject(&block)
+  #  filter(negate_block(&block))
+  #end
 
   def size
     map { |x| 1 }.reduce(0) { |acc, x| acc + x }
-  end
-
-  def any?(&block)
-    filter(&block).size > 0
-  end
-
-  def all?(&block)
-    filter(&block).size == size
   end
 
   def include?(element)
