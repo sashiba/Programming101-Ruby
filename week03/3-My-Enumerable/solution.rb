@@ -3,12 +3,20 @@ module MyEnumerable
 
   def map
     Array.new.tap do |arr|
+<<<<<<< HEAD
       each { |element| arr << (yield element) }
+=======
+      each do |element|
+        value = yield element
+        arr << value
+      end
+>>>>>>> 2bec31d0c87f2721c83df951d2ec0ee3b7cb278b
     end
   end
 
   def filter
     Array.new.tap do |arr|
+<<<<<<< HEAD
       each { |element| arr << element if yield element }
     end
   end
@@ -45,6 +53,62 @@ module MyEnumerable
 
   def one?(&block)
     filter(&block).size == 1
+=======
+      each do |element|
+        arr << element if (yield element)
+      end
+    end
+  end
+
+  def first
+    element = nil
+
+    each do |x|
+      element = x
+      break
+    end
+
+    element
+  end
+
+  def reduce(initial = nil)
+    skip_first = false
+
+    if initial.nil?
+      initial = first
+      skip_first = true
+    end
+
+    each do |x|
+      if skip_first
+        skip_first = false
+        next
+      end
+      initial = yield initial, x
+    end
+
+    initial
+  end
+
+  def negate_block(&block)
+    Proc.new { |x| !block.call(x) }
+  end
+
+  def reject(&block)
+    filter(negate_block(&block))
+  end
+
+  def size
+    map { |x| 1 }.reduce(0) { |acc, x| acc + x }
+  end
+
+  def any?(&block)
+    filter(&block).size > 0
+  end
+
+  def all?(&block)
+    filter(&block).size == size
+>>>>>>> 2bec31d0c87f2721c83df951d2ec0ee3b7cb278b
   end
 
   def include?(element)
@@ -65,6 +129,7 @@ module MyEnumerable
   end
 
   def count(element = nil)
+<<<<<<< HEAD
     return size if element == nil
     filter { |x| x == element }.size
   end
@@ -88,6 +153,15 @@ module MyEnumerable
     end
   end
 
+=======
+    if element.nil?
+      return size
+    end
+
+    filter { |x| x == element }.size
+  end
+
+>>>>>>> 2bec31d0c87f2721c83df951d2ec0ee3b7cb278b
 
   def min
     reduce { |min, element| min > element ? element : min }
@@ -153,3 +227,24 @@ module MyEnumerable
   alias_method :select,  :filter
   alias_method :foldl,   :reduce
 end
+
+class Collection
+  include MyEnumerable
+
+  def initialize(*data)
+    @data = data
+  end
+
+  def each(&block)
+    @data.each(&block)
+  end
+
+  def ==(otherCollection)
+    @data == otherCollection.data
+  end
+
+  def get(index)
+    return @data[index]
+  end
+end
+
