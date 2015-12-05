@@ -3,20 +3,12 @@ module MyEnumerable
 
   def map
     Array.new.tap do |arr|
-<<<<<<< HEAD
       each { |element| arr << (yield element) }
-=======
-      each do |element|
-        value = yield element
-        arr << value
-      end
->>>>>>> 2bec31d0c87f2721c83df951d2ec0ee3b7cb278b
     end
   end
 
   def filter
     Array.new.tap do |arr|
-<<<<<<< HEAD
       each { |element| arr << element if yield element }
     end
   end
@@ -53,11 +45,6 @@ module MyEnumerable
 
   def one?(&block)
     filter(&block).size == 1
-=======
-      each do |element|
-        arr << element if (yield element)
-      end
-    end
   end
 
   def first
@@ -108,7 +95,6 @@ module MyEnumerable
 
   def all?(&block)
     filter(&block).size == size
->>>>>>> 2bec31d0c87f2721c83df951d2ec0ee3b7cb278b
   end
 
   def include?(element)
@@ -129,7 +115,6 @@ module MyEnumerable
   end
 
   def count(element = nil)
-<<<<<<< HEAD
     return size if element == nil
     filter { |x| x == element }.size
   end
@@ -152,16 +137,6 @@ module MyEnumerable
       end
     end
   end
-
-=======
-    if element.nil?
-      return size
-    end
-
-    filter { |x| x == element }.size
-  end
-
->>>>>>> 2bec31d0c87f2721c83df951d2ec0ee3b7cb278b
 
   def min
     reduce { |min, element| min > element ? element : min }
@@ -227,24 +202,3 @@ module MyEnumerable
   alias_method :select,  :filter
   alias_method :foldl,   :reduce
 end
-
-class Collection
-  include MyEnumerable
-
-  def initialize(*data)
-    @data = data
-  end
-
-  def each(&block)
-    @data.each(&block)
-  end
-
-  def ==(otherCollection)
-    @data == otherCollection.data
-  end
-
-  def get(index)
-    return @data[index]
-  end
-end
-
