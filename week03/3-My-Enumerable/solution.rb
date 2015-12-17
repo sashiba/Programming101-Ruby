@@ -84,12 +84,22 @@ module MyEnumerable
     initial
   end
 
+<<<<<<< HEAD
   #def reject(&block)
   #  filter(negate_block(&block))
   #end
+=======
+  def negate_block(&block)
+    proc { |x| !block.call(x) }
+  end
+
+  def reject(&block)
+    filter(negate_block(&block))
+  end
+>>>>>>> 7a6312b9cf129d6ee1a7a52773d36d0276d1a83a
 
   def size
-    map { |x| 1 }.reduce(0) { |acc, x| acc + x }
+    map { |_| 1 }.reduce(0, &:+)
   end
 
   def include?(element)
@@ -111,6 +121,7 @@ module MyEnumerable
   end
 
   def count(element = nil)
+<<<<<<< HEAD
     return size if element == nil
     filter { |x| x == element }.size
   end
@@ -132,6 +143,13 @@ module MyEnumerable
     end
   end
 
+=======
+    return size if element.nil?
+
+    filter { |x| x == element }.size
+  end
+
+>>>>>>> 7a6312b9cf129d6ee1a7a52773d36d0276d1a83a
   def min
     reduce { |min, element| min > element ? element : min }
     #if block.given?
@@ -187,6 +205,7 @@ module MyEnumerable
   end
 #oprai
   def drop_while
+<<<<<<< HEAD
     return enum_for(:drop_while) unless block_given?
     
     counter, arr, b = 0, [], true
@@ -204,3 +223,8 @@ module MyEnumerable
   alias_method :select,  :filter
   alias_method :foldl,   :reduce
 end
+=======
+    # Your code goes here.
+  end
+end
+>>>>>>> 7a6312b9cf129d6ee1a7a52773d36d0276d1a83a
