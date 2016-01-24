@@ -23,25 +23,63 @@ class Object
 end
 
 class String
-  def decompose
-    methods = []
-    chars = self.chars
-    while chars.include? '.'
-      methods << chars.take_while { |c| c != '.' }.join
-      chars = chars.drop_while { |c| c != '.' }.drop(1)
-    end
-    methods << chars.join if chars
+  # def decompose
+  #   methods = []
+  #   chars = self.chars
+  #   while chars.include? '.'
+  #     methods << chars.take_while { |c| c != '.' }.join
+  #     chars = chars.drop_while { |c| c != '.' }.drop(1)
+  #   end
+  #   methods << chars.join if chars
 
-    methods
-  end
+  #   methods
+  # end
 
+  # def to_proc
+  #   # proc { |arg, args*| arg.send(self, *args) }
+  #   methods = self.decompose
+  #   p methods
+  #   methods.each do |method|
+  #     lambda { |x, *args| x.public_send method.to_sym, *args }
+  #   end
+
+  #   #lambda { |x, *args| x.public_send self, *args }
+  # end
   def to_proc
-    methods = self.decompose
-    p methods
-    methods.each do |method|
-      lambda { |x, *args| x.public_send method.to_sym, *args }
-    end
-
-    #lambda { |x, *args| x.public_send self, *args }
+    proc { |arg, *args| arg.public_send(self, *args) }
   end
+end
+
+class Module
+  def private_attr_accessor(*attrs)
+  end
+
+  def cattr_accessor(*attrs, &block)
+    attrs.each do |attr|
+      class_variable_set("@@#{attr}", yield) if block_given?
+      cattr_reader attr
+      cattr_writer attr
+    end
+  end
+
+  def cattr_reader(*attrs)
+    attrs.each do |attr|
+      define_singleton_method("#{attr}") { class_variable_get("@@#{attr}") }
+    end
+  end
+
+  def cattr_writer(*attrs)
+    attrs.each do |attr|
+      define_singleton_method("#{attr}=") do |value|
+        class_variable_set("@@#{attr}", value)
+      end
+    end
+  end
+end
+
+class Nilclass
+end
+
+class TestClass
+  @@class_variable = 'class variable'
 end
