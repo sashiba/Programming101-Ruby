@@ -1,4 +1,7 @@
 class Object
+  def define_singleton_method(name, method = nil, &block)
+  end
+
   def singleton_class_v1
     raise TypeError, "can't define singleton" if self.class == Symbol && self.class == Fixnum
     case self
@@ -82,4 +85,6 @@ end
 
 class TestClass
   @@class_variable = 'class variable'
+  def define_singleton_method(name, method = nil, &block)
+  end
 end
