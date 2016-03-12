@@ -44,7 +44,7 @@ class String
 
   #   methods
   # end
-*
+
   # def to_proc
   #   # proc { |arg, args*| arg.send(self, *args) }
   #   methods = self.decompose
@@ -63,7 +63,7 @@ end
 class Module
   def private_attr_accessor(*attrs)
     attrs.each do |attr|
-      
+
     end
   end
 
