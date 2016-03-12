@@ -2,6 +2,8 @@ require 'minitest/autorun'
 
 require_relative 'solution'
 
+@@test_class_variable = 'test_class_variable_in_obj'
+
 class SolutionTest < Minitest::Test
   def test_the_truth
     obj = Object.new
@@ -11,24 +13,27 @@ class SolutionTest < Minitest::Test
   end
 
   def test_module_cattr_accessor_default_value
-    TestClass.class_eval do
-      cattr_accessor :class_variable
+    Object.class_eval do
+      cattr_accessor :test_class_variable
       cattr_accessor(:class_variable_with_def_val) { [] }
     end
 
-    assert_equal [], TestClass.class_variable_with_def_val
+    assert_equal [], Object.class_variable_with_def_val
   end
 
   def test_module_cattr_reader
-    TestClass.class_eval { cattr_reader :class_variable }
+    Object.class_eval { cattr_reader :test_class_variable }
 
-    assert_equal TestClass.class_variable, 'class variable'
+    assert_equal Object.test_class_variable, 'test_class_variable_in_obj'
   end
 
-  def test_module_cattr_writer
-    TestClass.class_eval { cattr_writer :class_variable }
-    TestClass.class_variable = 'test'
+  def test_module_cattr_writer_in_object
+    Object.class_eval do
+      cattr_writer :test_class_variable
+      cattr_reader :test_class_variable
+    end
+    Object.test_class_variable = 'test'
 
-    assert_equal TestClass.class_variable, 'test'
+    assert_equal Object.test_class_variable, 'test'
   end
 end

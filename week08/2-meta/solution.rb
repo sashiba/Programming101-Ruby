@@ -1,7 +1,4 @@
 class Object
-  def define_singleton_method(name, method = nil, &block)
-  end
-
   def singleton_class_v1
     raise TypeError, "can't define singleton" if self.class == Symbol && self.class == Fixnum
     case self
@@ -23,6 +20,16 @@ class Object
     singleton_class.class_eval { define_method(symbol, method) } if method
     singleton_class.class_eval { define_method(symbol, &block) } if block_given?
   end
+
+  def delegate(method_name, to:)
+    class_eval <<-RUBY
+      def #{method_name}(*args, &block)
+        #{to}.#{method_name}(*args, &block)
+      end
+    RUBY
+    # define_method method_name do |*args, **kw, &block|
+    # end
+  end
 end
 
 class String
@@ -37,7 +44,7 @@ class String
 
   #   methods
   # end
-
+*
   # def to_proc
   #   # proc { |arg, args*| arg.send(self, *args) }
   #   methods = self.decompose
@@ -55,6 +62,9 @@ end
 
 class Module
   def private_attr_accessor(*attrs)
+    attrs.each do |attr|
+      
+    end
   end
 
   def cattr_accessor(*attrs, &block)
@@ -80,11 +90,26 @@ class Module
   end
 end
 
-class Nilclass
+class Proxy
+  def initialize(*object)
+    @object = object.flatten
+  end
+
+  def method_missing(method_name, *args)
+    @object.send(method_name, *args)
+  end
+
+  def respond_to_missing?(method_name, *args)
+    @object.respond_to?(method_name)
+  end
 end
 
-class TestClass
-  @@class_variable = 'class variable'
-  def define_singleton_method(name, method = nil, &block)
+class Nilclass
+  def method_missing(*)
+    nil
+  end
+
+  def respond_to_missing?(*)
+    nil
   end
 end
