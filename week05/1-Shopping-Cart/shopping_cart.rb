@@ -34,7 +34,7 @@ module Promotions
     def discount(quantity, price)
       packages = quantity / @size
       package_discount = @size * price * (@percent / '100'.to_d)
-      
+
       packages * package_discount
     end
 
@@ -44,7 +44,6 @@ module Promotions
   end
 
   class ThresholdDiscount
-
     def initialize(threshold, percent)
       @threshold, @percent = threshold, percent
     end
@@ -60,23 +59,14 @@ module Promotions
 
     def print_promo
       ordinal = { 1 => 'st', 2 => 'nd', 3 => 'rd' }.fetch @threshold, 'th'
-      
+
       "(#{@percent}% off of every after the #{@threshold}#{ordinal})"
     end
   end
 end
-#kuponi
-# cart.use "TEATIME"
-# 2 wida kuponi: percent, amount 
-# otstupkata se prilaga sled otstupkata ot promota
-# 
-# 1)percent- procent ot total
-# 2)amount - fiksirana suma
-#   ako otstupkata > total => total = 0.00
 
 module Coupon
   def self.create(name, discount)
-    #discount = { type=>kolichestwo }
     case discount.keys.first
     when :percent then PercentDiscount.new name, discount[:percent]
     when :amount  then AmountDiscount.new  name, discount[:amount]
@@ -101,14 +91,14 @@ module Coupon
 
   class AmountDiscount
     attr_accessor :name
-    
+
     def initialize(name, amount)
       @name, @amount = name, amount
     end
 
     def discount(current_bill)
       return current_bill if @amount > current_bill
-      
+
       current_bill - @amount
     end
 
@@ -131,7 +121,7 @@ class Product
 
   def price_without_discount(quantity)
     price * quantity
-    end
+  end
 
   def price_with_discount(quantity)
     return price_without_discount(quantity) if promotion == {}
@@ -147,12 +137,12 @@ class Inventory
     @products = []
     @coupons = []
   end
-  #to_digits - bigdecimal; a.round(2).to_digits
+
   def register(product, price, promo = {})
     price = price.to_d
-    
+
     if product.length > 40 or !price.between?(0.01, 999.99) or self[product]
-      raise "Invalid parameters passed." 
+      raise "Invalid parameters passed."
     end
     promo = Promotions.type promo unless promo == {}
     products << Product.new(product, price, promo)
@@ -190,11 +180,11 @@ class Cart
 
   def add(product, quantity = 1)
     raise "Invalid parameters passed." unless inventory[product]
-    
+
     return items[product] = quantity unless items[product]
-    
+
     raise "Quantity not in range." if items[product] <= 0 or items[product] > 99
-    
+
     items[product] = items[product] + quantity
   end
 
@@ -214,7 +204,9 @@ class Cart
   end
 
   def total
-    items_price - coupon_discount
+    return items_price - coupon_discount unless @coupon.nil?
+
+    items_price
   end
 
   def coupon_discount
@@ -228,7 +220,7 @@ end
 
 class Invoice
   attr_accessor :invoice
-  
+
   def initialize(cart)
     @cart = cart
   end
@@ -268,7 +260,7 @@ class Invoice
       print @cart.coupon.print_coupon, '', coupon_discount_pattern(@cart.coupon_discount.to_digits) 
     end
   end
-  
+
   def coupon_discount_pattern(number)
     number = '-' + number
     "%5.2f" % number
@@ -287,5 +279,3 @@ class Invoice
     invoice << "| %-40s %5s | %8s |\n" % args
   end
 end
-
-
