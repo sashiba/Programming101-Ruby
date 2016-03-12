@@ -46,7 +46,6 @@ class Filter
   def initialize(&block)
     @filter = block
   end
-
 end
 
 class TypeFilter
