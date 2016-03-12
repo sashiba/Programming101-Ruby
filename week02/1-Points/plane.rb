@@ -38,3 +38,33 @@ plane = InfinitePlane.new 0, 0
 plane.move_to_directions '>>><<<~>>>~^^^'
 
 puts plane
+#class InfinitePlane
+#  def initialize(x, y)
+#    @x, @y= x, y
+#  end
+#
+#  def move_to_directions(directions)
+#    count = directions.count '~'
+#    directions = directions.split('')
+#    directions.each do |dir|
+#      if dir == '~'
+#        @x *= -1
+#        @y *= -1
+#      end
+#      @x += 1 if dir == '>'
+#      @x -= 1 if dir == '<'
+#      @y += 1 if dir == 'v'
+#      @y -= 1 if dir == '^'
+#    end
+#
+#    if count.odd?
+#      @x *= -1
+#      @y *= -1
+#    end
+#  end
+#
+#  def to_array
+#    [@x, @y]
+#  end
+#end
+
