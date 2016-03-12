@@ -1,6 +1,6 @@
 require 'minitest/autorun'
 
-require_relative 'solution'
+require_relative 'game_of_life'
 
 class SolutionTest < Minitest::Test
   def test_the_truth
