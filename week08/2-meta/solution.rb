@@ -16,7 +16,6 @@ class Object
   end
 
   def define_singleton_method_v1(symbol, method = nil, &block)
-    # self.instance_eval
     singleton_class.class_eval { define_method(symbol, method) } if method
     singleton_class.class_eval { define_method(symbol, &block) } if block_given?
   end
