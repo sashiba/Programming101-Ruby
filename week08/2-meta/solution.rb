@@ -104,7 +104,7 @@ class Proxy
   end
 end
 
-class Nilclass
+class NilClass
   def method_missing(*)
     nil
   end
