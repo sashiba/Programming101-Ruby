@@ -1,0 +1,9 @@
+
+<h2>Hello</h2>
+Your account details:<br>
+<ul>
+  <li><%= @user.first_name %></li>
+  <li><%= @user.last_name %></li>
+  <li><%= @user.email %></li>
+</ul>
+<%= link_to "Logout", logout_path , method: :delete%>
