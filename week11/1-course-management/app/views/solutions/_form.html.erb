@@ -1,0 +1,21 @@
+  <%= form_for [@lecture, @task, @solution] do |f| %>
+  <% if @solution.errors.any? %>
+    <div id="error explanation">
+      <h2><%= pluralize(@solution.errors.count, "error") %> prohibited this lecture from being saved:</h2>
+    
+      <ul>
+        <% @solution.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="field">
+    <%= f.label :solution %><br>
+    <%= f.text_area :text_block %><br>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
+

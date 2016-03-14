@@ -1,0 +1,17 @@
+<p>
+  <strong>Name:</strong>
+  <%= @lecture.name %>
+</p>
+
+
+<p>
+  <strong>text_body:</strong>
+  <%= @lecture.text_body %>
+</p>
+
+<p>
+  <%= link_to 'Tasks', lecture_tasks_path(@lecture) %>
+</p>
+
+<%= link_to 'Edit', edit_lecture_path %>
+<%= link_to 'Back', lectures_path %>

@@ -1,0 +1,26 @@
+<h1>Solutions</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Solution</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @solutions.each do |solution| %>
+      <tr> 
+        <td><%= solution.id %></td>
+        <td><%= link_to "Show", lecture_task_solution_path(params[:lecture_id], params[:task_id], solution) %></td> 
+        <td><%= link_to "Edit", edit_lecture_task_solution_path(params[:lecture_id], params[:task_id], solution) %></td> 
+        <td><%= link_to "Delete", lecture_task_solution_path(params[:lecture_id], params[:task_id], solution), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<p>
+  <br>
+  <%= link_to "New solution", new_lecture_task_solution_path %>
+  <br>
+  <%= link_to "Tasks", lecture_tasks_path(@lecture) %>
+</p>
