@@ -1,0 +1,30 @@
+<%= render 'flash' %>
+<br><br>
+<% @tweets.each do |tweet| %>
+  <%= tweet['text'] %><br>
+<% end %>
+
+<p>
+Filtered_postive
+<% unless @filtered_positive.nil? %>
+    <% @filtered_positive.each do |tweet| %>
+      <%= tweet['text'] %>
+    <% end %>
+<% end %>
+</p>
+<p>
+Filtered_negative
+<% unless @filtered_negative.nil? %>
+    <% @filtered_negative.each do |tweet| %>
+      <%= tweet['text'] %>
+    <% end %>
+<% end %>
+</p>
+<p>
+Filtered_neutral
+<% unless @filtered_neutral.nil? %>
+    <% @filtered_neutral.each do |tweet| %>
+      <%= tweet['text'] %>
+    <% end %>
+<% end %>
+</p>
