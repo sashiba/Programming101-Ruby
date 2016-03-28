@@ -1,0 +1,24 @@
+<h1>Listing Photos</h1>
+ 
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th colspan="2"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @photos.each do |photo| %>
+      <tr>
+        <td><%= photo.name %></td>
+        <td><img height=50 width=50 src=<%= photo.url %>></td>
+        <td><%= link_to 'Show', photo %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+
+<%= link_to 'New Photo', new_photo_path %><br>
+<%= link_to 'Home', '/' %>
