@@ -1,4 +1,4 @@
-cro Blog
+Micro Blog
 
 Hi guys & girls,
 
